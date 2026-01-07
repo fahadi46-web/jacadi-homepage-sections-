@@ -1,0 +1,55 @@
+<section class="hero-slideshow">
+  {% for block in section.blocks %}
+    <div class="hero-slide" style="background-image:url({{ block.settings.image | image_url }});">
+      <div class="hero-content">
+        <h1>{{ block.settings.heading }}</h1>
+        <p>{{ block.settings.subheading }}</p>
+        <a href="{{ block.settings.link }}" class="btn">
+          {{ block.settings.button_label }}
+        </a>
+      </div>
+    </div>
+  {% endfor %}
+</section>
+
+<style>
+.hero-slide {
+  min-height: 70vh;
+  background-size: cover;
+  background-position: center;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.hero-content {
+  background: rgba(255,255,255,0.85);
+  padding: 30px;
+  text-align: center;
+}
+.btn {
+  padding:12px 25px;
+  background:#000;
+  color:#fff;
+  text-decoration:none;
+}
+</style>
+
+{% schema %}
+{
+  "name": "Hero Slideshow",
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "text", "id": "heading", "label": "Heading" },
+        { "type": "text", "id": "subheading", "label": "Subheading" },
+        { "type": "url", "id": "link", "label": "Link" },
+        { "type": "text", "id": "button_label", "label": "Button Label" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "Hero Slideshow" }]
+}
+{% endschema %}

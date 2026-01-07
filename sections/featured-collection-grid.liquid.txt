@@ -1,0 +1,35 @@
+<section class="collection-grid">
+  <h2>{{ section.settings.heading }}</h2>
+
+  <div class="products">
+    {% for product in collections[section.settings.collection].products limit:8 %}
+      <div class="product">
+        <a href="{{ product.url }}">
+          <img src="{{ product.featured_image | image_url }}">
+          <p>{{ product.title }}</p>
+          <span>{{ product.price | money }}</span>
+        </a>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+
+<style>
+.products {
+  display:grid;
+  grid-template-columns: repeat(auto-fit,minmax(180px,1fr));
+  gap:20px;
+}
+.product img { width:100%; }
+</style>
+
+{% schema %}
+{
+  "name": "Featured Collection Grid",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading" },
+    { "type": "collection", "id": "collection", "label": "Collection" }
+  ],
+  "presets": [{ "name": "Featured Collection Grid" }]
+}
+{% endschema %}

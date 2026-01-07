@@ -1,0 +1,36 @@
+<section class="services">
+  {% for block in section.blocks %}
+    <div class="service">
+      <img src="{{ block.settings.icon | image_url }}">
+      <p>{{ block.settings.text }}</p>
+    </div>
+  {% endfor %}
+</section>
+
+<style>
+.services {
+  display:flex;
+  justify-content:space-around;
+  padding:40px;
+  background:#f7f7f7;
+}
+.service { text-align:center; }
+.service img { width:40px; }
+</style>
+
+{% schema %}
+{
+  "name": "Services Icons",
+  "blocks": [
+    {
+      "type": "service",
+      "name": "Service",
+      "settings": [
+        { "type": "image_picker", "id": "icon", "label": "Icon" },
+        { "type": "text", "id": "text", "label": "Text" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "Services Icons" }]
+}
+{% endschema %}
