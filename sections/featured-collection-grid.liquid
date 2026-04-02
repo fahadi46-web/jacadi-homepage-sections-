@@ -1,26 +1,60 @@
-<section class="collection-grid">
-  <h2>{{ section.settings.heading }}</h2>
+<section class="collection-grid" {{ section.shopify_attributes }}>
+  {% if section.settings.heading != blank %}
+    <h2 class="collection-grid__heading">{{ section.settings.heading }}</h2>
+  {% endif %}
 
   <div class="products">
-    {% for product in collections[section.settings.collection].products limit:8 %}
+    {% for product in collections[section.settings.collection].products limit: 8 %}
       <div class="product">
         <a href="{{ product.url }}">
-          <img src="{{ product.featured_image | image_url }}">
-          <p>{{ product.title }}</p>
-          <span>{{ product.price | money }}</span>
+          <img
+            src="{{ product.featured_image | image_url: width: 400 }}"
+            alt="{{ product.featured_image.alt | escape }}"
+            loading="lazy"
+            width="400"
+          >
+          <p class="product__title">{{ product.title }}</p>
+          <span class="product__price">{{ product.price | money }}</span>
         </a>
       </div>
+    {% else %}
+      <p>No products found. Please select a collection.</p>
     {% endfor %}
   </div>
 </section>
 
 <style>
-.products {
-  display:grid;
-  grid-template-columns: repeat(auto-fit,minmax(180px,1fr));
-  gap:20px;
+.collection-grid {
+  padding: 40px 20px;
 }
-.product img { width:100%; }
+.collection-grid__heading {
+  text-align: center;
+  margin: 0 0 30px;
+  font-size: 1.75rem;
+}
+.products {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 20px;
+}
+.product a {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+.product img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.product__title {
+  margin: 8px 0 4px;
+  font-size: 0.95rem;
+}
+.product__price {
+  font-size: 0.9rem;
+  color: #555;
+}
 </style>
 
 {% schema %}

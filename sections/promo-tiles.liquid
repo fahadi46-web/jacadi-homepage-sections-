@@ -1,20 +1,53 @@
-<section class="promo-tiles">
+<section class="promo-tiles" {{ section.shopify_attributes }}>
   {% for block in section.blocks %}
-    <a href="{{ block.settings.link }}" class="promo-tile">
-      <img src="{{ block.settings.image | image_url }}">
-      <h3>{{ block.settings.title }}</h3>
+    <a href="{{ block.settings.link }}" class="promo-tile" {{ block.shopify_attributes }}>
+      {% if block.settings.image %}
+        <div class="promo-tile__img-wrap">
+          <img
+            src="{{ block.settings.image | image_url: width: 600 }}"
+            alt="{{ block.settings.image.alt | default: block.settings.title | escape }}"
+            loading="lazy"
+            width="600"
+          >
+        </div>
+      {% endif %}
+      {% if block.settings.title != blank %}
+        <h3 class="promo-tile__title">{{ block.settings.title }}</h3>
+      {% endif %}
     </a>
   {% endfor %}
 </section>
 
 <style>
 .promo-tiles {
-  display:grid;
-  grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
-  gap:20px;
-  padding:40px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  padding: 40px 20px;
 }
-.promo-tile img { width:100%; }
+.promo-tile {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  overflow: hidden;
+}
+.promo-tile__img-wrap {
+  overflow: hidden;
+}
+.promo-tile__img-wrap img {
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: transform 0.3s ease;
+}
+.promo-tile:hover .promo-tile__img-wrap img {
+  transform: scale(1.04);
+}
+.promo-tile__title {
+  margin: 10px 0 0;
+  font-size: 1rem;
+  text-align: center;
+}
 </style>
 
 {% schema %}

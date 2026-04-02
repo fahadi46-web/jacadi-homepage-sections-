@@ -1,21 +1,55 @@
-<section class="services">
+<section class="services" {{ section.shopify_attributes }}>
   {% for block in section.blocks %}
-    <div class="service">
-      <img src="{{ block.settings.icon | image_url }}">
-      <p>{{ block.settings.text }}</p>
+    <div class="service" {{ block.shopify_attributes }}>
+      {% if block.settings.icon %}
+        <img
+          src="{{ block.settings.icon | image_url: width: 80 }}"
+          alt="{{ block.settings.icon.alt | default: block.settings.title | escape }}"
+          width="40"
+          height="40"
+          loading="lazy"
+        >
+      {% endif %}
+      {% if block.settings.title != blank %}
+        <h4 class="service__title">{{ block.settings.title }}</h4>
+      {% endif %}
+      {% if block.settings.text != blank %}
+        <p class="service__text">{{ block.settings.text }}</p>
+      {% endif %}
     </div>
   {% endfor %}
 </section>
 
 <style>
 .services {
-  display:flex;
-  justify-content:space-around;
-  padding:40px;
-  background:#f7f7f7;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  gap: 24px;
+  padding: 40px 20px;
+  background: #f7f7f7;
 }
-.service { text-align:center; }
-.service img { width:40px; }
+.service {
+  flex: 1 1 120px;
+  max-width: 200px;
+  text-align: center;
+}
+.service img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  margin-bottom: 10px;
+}
+.service__title {
+  margin: 0 0 6px;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+.service__text {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #555;
+}
 </style>
 
 {% schema %}
@@ -27,7 +61,8 @@
       "name": "Service",
       "settings": [
         { "type": "image_picker", "id": "icon", "label": "Icon" },
-        { "type": "text", "id": "text", "label": "Text" }
+        { "type": "text", "id": "title", "label": "Title" },
+        { "type": "text", "id": "text", "label": "Description" }
       ]
     }
   ],
